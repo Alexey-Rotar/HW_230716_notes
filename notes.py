@@ -24,7 +24,7 @@ def add_note(filename, head = '', body = '', date = ''):
     head = input('Заголовок: ')
     body = input('Текст заметки: ') 
     current_date = datetime.datetime.now()
-    date = current_date.strftime('%m/%d/%y %H:%M:%S')
+    date = current_date.strftime('%d/%m/%y %H:%M:%S')
     new_item = []
     new_item.append(str(next_id))
     new_item.append(head)
@@ -47,15 +47,14 @@ def find_note_ID(filename, ID):
     for i in range(1,len(notes_array)):
         if notes_array[i][0] == str(ID):
             return i
-        else:
-            return None      
+    return None      
 
 def change_note(filename, item_ID):
     notes_array = read_file(filename)
     head = input('Заголовок: ')
     body = input('Текст заметки: ')
     current_date = datetime.datetime.now()
-    date = current_date.strftime('%m/%d/%y %H:%M:%S')
+    date = current_date.strftime('%d/%m/%y %H:%M:%S')
     notes_array[item_ID][1] = head
     notes_array[item_ID][2] = body
     notes_array[item_ID][3] = date
