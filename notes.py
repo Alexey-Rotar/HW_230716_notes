@@ -104,7 +104,10 @@ def menu():
         print('4 - Изменить заметку')
         print('5 - Удалить заметку')
         print('0 - Выход')
-        user_input = int(input('Выберите пункт меню: '))
+        try:
+            user_input = int(input('Выберите пункт меню: '))
+        except:
+            print('Введено нечисловое значение!')
         match user_input:
             case 1:
                 try:
@@ -149,7 +152,7 @@ def menu():
             case 0:
                 print('Работа завершена.\n')
             case _:
-                print('Введено неверное значение пункта меню!\n')
+                print('Введите значение 0...5\n')
 
 filename = 'notes.csv'
 menu()
