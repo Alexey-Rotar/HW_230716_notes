@@ -4,7 +4,7 @@ from datetime import timedelta
 
 def read_file(filename):
     try:
-        with open(filename, 'r', encoding='utf-8') as data:
+        with open(filename, mode='r', encoding='utf-8') as data:
             notes_array = []
             for line in data:
                 item = line.replace('\n','').split(sep = ';')
@@ -15,7 +15,7 @@ def read_file(filename):
 
 def write_file(filename, notes_array):
     try:
-        with open(filename, 'w') as data:
+        with open(filename, mode='w', encoding='utf-8') as data:
             for i in notes_array:
                 write_element = ';'.join(i)
                 data.write(f'{write_element}\n')
