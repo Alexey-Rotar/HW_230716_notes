@@ -3,18 +3,24 @@ from datetime import datetime
 from datetime import timedelta
 
 def read_file(filename):
-    with open(filename, 'r') as data:
-        notes_array = []
-        for line in data:
-            item = line.replace('\n','').split(sep = ';')
-            notes_array.append(item)
-    return notes_array
+    try:
+        with open(filename, 'r', encoding='utf-8') as data:
+            notes_array = []
+            for line in data:
+                item = line.replace('\n','').split(sep = ';')
+                notes_array.append(item)
+        return notes_array
+    except:
+        print(f'Не удалось открыть файл {filename}!')
 
 def write_file(filename, notes_array):
-    with open(filename, 'w') as data:
-        for i in notes_array:
-            write_element = ';'.join(i)
-            data.write(f'{write_element}\n')
+    try:
+        with open(filename, 'w') as data:
+            for i in notes_array:
+                write_element = ';'.join(i)
+                data.write(f'{write_element}\n')
+    except:
+        print(f'Не удалось открыть файл {filename}!')
 
 def add_note(filename, head = '', body = '', date = ''):
     notes_array = read_file(filename) 
@@ -54,9 +60,9 @@ def show_notes_by_date(filename, date):
                 print(f"\n{'ID':<7}{'Заголовок':<30}{'Текст заметки':<80}{'Дата создания (изменения)'}")
                 flag = False
             print(f"{notes_array[i][0]:<7}{notes_array[i][1]:<30}{notes_array[i][2]:<80}{notes_array[i][3]}")
+    print()
     if flag == True:
         print('Нет заметок на указанную дату!\n')
-    print()
 
 def show_note(filename, index):
     notes_array = read_file(filename)
@@ -101,34 +107,49 @@ def menu():
         user_input = int(input('Выберите пункт меню: '))
         match user_input:
             case 1:
-                show_all_notes(filename)
+                try:
+                    show_all_notes(filename)
+                except:
+                    print(f'Ошибка при обработке данных!\n')
             case 2:
                 date_input = input('Укажите дату в формате ДД/ММ/ГГ: ')
-                show_notes_by_date(filename, date_input)
+                try:
+                    show_notes_by_date(filename, date_input)
+                except:
+                    print(f'Ошибка при обработке данных!\n')
             case 3:
-                add_note(filename)
+                try:
+                    add_note(filename)
+                except:
+                    print(f'Ошибка при обработке данных!\n')
             case 4:
                 date_input = int(input('Укажите ID заметки для внесения изменений: '))
-                ID = find_note_ID(filename, date_input)
-                if ID != None and ID != 0:
-                    print('Редактирование заметки: ')
-                    show_note(filename, ID)
-                    change_note(filename, ID)
-                else:
-                    print('Заметка с таким ID не найдена!\n')
+                try:
+                    ID = find_note_ID(filename, date_input)
+                    if ID != None and ID != 0:
+                        print('Редактирование заметки: ')
+                        show_note(filename, ID)
+                        change_note(filename, ID)
+                    else:
+                        print('Заметка с таким ID не найдена!\n')
+                except:
+                    print(f'Ошибка при обработке данных!\n')
             case 5:
-                date_input = int(input('Укажите ID зметки для удаления: '))
-                ID = find_note_ID(filename, date_input)
-                if ID != None and ID != 0:
-                    print('Удалена заметка: ')
-                    show_note(filename, ID)
-                    delete_note(filename, ID)
-                else:
-                    print('Заметка с таким ID не найдена!\n')
+                try:
+                    date_input = int(input('Укажите ID зметки для удаления: '))
+                    ID = find_note_ID(filename, date_input)
+                    if ID != None and ID != 0:
+                        print('Удалена заметка: ')
+                        show_note(filename, ID)
+                        delete_note(filename, ID)
+                    else:
+                        print('Заметка с таким ID не найдена!\n')
+                except:
+                    print(f'Ошибка при обработке данных!\n')
             case 0:
                 print('Работа завершена.\n')
             case _:
-                print('Введено неверное значение!\n')
+                print('Введено неверное значение пункта меню!\n')
 
 filename = 'notes.csv'
 menu()
